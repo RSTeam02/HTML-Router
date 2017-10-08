@@ -1,0 +1,86 @@
+	<h2>Pattern-Maker 7x5 to 10x10</h2>
+    <svg version="1.1" viewBox="0 0 500 200" preverseAspectRatio="xMinYMinmeet">
+            <defs>
+                <radialGradient id="RadialGradient1">
+                    <stop offset="0%" stop-color="orange"/>
+                    <stop offset="100%" stop-color="red"/>
+                </radialGradient> 
+              
+                <radialGradient id="RadialGradient2">
+                    <stop offset="0%" stop-color="yellow"/>
+                    <stop offset="100%" stop-color="green"/>
+                </radialGradient>       
+                <radialGradient id="RadialGradient3">
+                    <stop offset="0%" stop-color="white"/>
+                    <stop offset="100%" stop-color="blue"/>
+                </radialGradient>    
+                <radialGradient id="RadialGradient4">
+                    <stop offset="0%" stop-color="white"/>
+                    <stop offset="100%" stop-color="grey"/>
+                </radialGradient>
+				<radialGradient id="RadialGradient5">
+                    <stop offset="0%" stop-color="yellow"/>
+                    <stop offset="100%" stop-color="orange"/>
+                </radialGradient>    
+                <radialGradient id="RadialGradient4">
+                    <stop offset="0%" stop-color="white"/>
+                    <stop offset="100%" stop-color="grey"/>
+                </radialGradient>
+                                
+            </defs>
+            <g  id ="svgTitle" transform="translate(2, 20)"></g>  
+            <g  id ="ledDisplay"></g>           
+            <g  id ="nativeDisplay" transform="translate(100, 340)"></g>       
+        </svg>
+
+
+    <form name="selector" class="text">    
+        <input class="btn" type="button" id="resetBtn" value="reset">
+		<input class="updateList" type="button" id="saveBtn" value="save">
+		<input class="updateList" type="button" id="appendBtn" value="append">
+		<input class="updateList" type="button" id="removeAll" value="removeAll">
+    </form>
+
+	<fieldset>           
+        row: <input class="rc" type="range" min="7" max="10" value="0" id="row">
+        col: <input class="rc" type="range" min="5" max="10" value="0" id="col">        
+        <div id="info"></div>
+    </fieldset>
+
+	<fieldset>
+		<input class="color" id="red" type="radio" value="RadialGradient1" name="rgb" checked>red</input>    
+    	<input class="color" id="green" type="radio" value="RadialGradient2" name="rgb">green</input>
+        <input class="color" id="blue" type="radio" value="RadialGradient3" name="rgb">blue</input>
+		<input class="color" type="radio" id="yellow" name="rgb" value="RadialGradient5">yellow</input>
+        <input class="color" type="radio" id="white" name="rgb" value="RadialGradient4">white</input>   
+		<input class="color" type="radio" id="random" name="rgb" value="Random">random</input>     
+    </fieldset>
+
+	<fieldset>
+		<input class="shape" id="circle" type="radio" value="circle" name="figure" checked>circle</input>    
+    	<input class="shape" id="rect" type="radio" value="rect" name="figure">square</input>       
+    </fieldset>
+
+	<fieldset>
+		<input class="func" id="draft" type="radio" value="draft" name="mode" checked>draft</input>
+		<input class="func" id="insert" type="radio" value="insert" name="mode">insert</input>    	    	
+        <input class="func" id="remove" type="radio" value="remove" name="mode">remove</input>
+        
+    </fieldset>
+
+	<fieldset>
+    	<div id = "updateSlider">Interval Slider, update every 0ms (pause)</div>
+        <input type="range" min="0" max="1000" step="50" id="slider" value="0" class="mkInput">
+		
+    </fieldset>
+	<fieldset>
+  		upload/append pattern sequence:
+        <input id="read" type="file"></input>
+	</fieldset>
+	<fieldset>
+		<div id="ahref">
+			<a href="" id="download"></a>
+		</div>
+	</fieldset>
+	<ul id= "snapshot"></ul>
+    <script src="startPtnMaker.js" type="module"></script>

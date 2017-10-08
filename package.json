@@ -1,0 +1,24 @@
+{
+  "name": "htmlrouter",
+  "version": "1.0.0",
+  "description": "route html documents with more than one seperate js-scripts",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "handlebars": "^4.0.6",
+    "ws": "^2.2.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "routing",
+    "html",
+    "hbs",
+    "express"
+  ],
+  "author": "sakaijun",
+  "license": "ISC"
+}

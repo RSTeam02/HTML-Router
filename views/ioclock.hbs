@@ -1,0 +1,45 @@
+<svg version="1.1" viewBox="0 0 500 350">
+            <defs id= "defCol">                
+                <radialGradient id="RadialGradient2">
+                    <stop offset="0%" stop-color="yellow"/>
+                    <stop offset="100%" stop-color="green"/>
+                </radialGradient>                             
+            </defs>
+            <g  id ="svgTitle" transform="translate(2, 20)"></g>  
+            <g  id ="ledDisplay" transform="translate(500, 40) rotate(90)"></g>           
+            <g  id ="nativeDisplay" transform="translate(2, 330)"></g>       
+        </svg>
+    <form name="selector" class="text">
+        <fieldset>
+            <legend id>Rotate Color</legend>
+            <input class="shiftClass" type="checkbox" id="shiftR">R</input>
+            <input class="shiftClass" type="checkbox" id="shiftG">G</input>
+            <input class="shiftClass" type="checkbox" id="shiftB">B</input>
+        </fieldset>
+        Format:
+        <fieldset>
+            <input class="radioBtnFormat" type="radio" id="24h" name="apm" checked>24h</input>
+            <input class="radioBtnFormat" type="radio" id="apm" name="apm"><span id="ampm"></span></input>                  
+         </fieldset>
+        <fieldset>
+            <legend id = "redInfo"></legend>
+             <input class="colClass" type="range" min="0" max="255" value="0" id="red">
+            
+        </fieldset>
+             <fieldset>
+             <legend id = "greenInfo"> </legend>             
+             <input class="colClass" type="range" min="0" max="255" value="0" id="green">
+            
+        </fieldset>
+        <fieldset>
+             <legend id = "blueInfo"></legend>
+             <input class="colClass" type="range" min="0" max="255" value="0" id="blue">
+                
+        </fieldset>        
+        <fieldset>
+            <input class="radioBtnShape" id="dec" type="radio" value="dec" name="format" checked>dec</input>
+            <input class="radioBtnShape" id="dot" type="radio" value="dot" name="format">dot</input>
+            <input class="radioBtnShape" id="rect" type="radio" value="rect" name="format">rect</input>
+        </fieldset>
+    </form>
+<script src="startClock.js" type="module"></script>
