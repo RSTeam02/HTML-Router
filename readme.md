@@ -1,6 +1,7 @@
 # HTML Router
 
-It uses for example the previous github projects "Pattern Maker" and "IOClock" with small changes (import path changes, hbs templates instead of html...etc.) to switch between them and run independently on a node server. 
+The HTML Router makes it possible to switch between apps and run them independently on a node server. 
+It uses for example previous github projects "Pattern Maker" and "IOClock" with small changes (import path changes, hbs templates instead of html...etc.) 
 Used node modules: 
 + express
 + express3-handlebars
