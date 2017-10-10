@@ -84,7 +84,7 @@ export class Controller extends SVGMatObject {
 			this.svgRaster(ledIO[loopCnt], this.shape, this.colorChooser());
 		}, update);
 	}
-
+	//assign every ui setting in a json
 	ptnMakSet() {
 
 		let rc;

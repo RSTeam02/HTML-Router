@@ -33,7 +33,6 @@ export class Controller {
         this.RGBSlider();
         this.saveListener();
         this.radioListener();
-
         if (this.setLS.loadSetting("ioClkSet") !== null) {
             $(`#${this.setLS.loadSetting("ioClkSet").shape}`).prop('checked', true);
             $(`#${this.setLS.loadSetting("ioClkSet").apm}`).prop('checked', true);
@@ -46,8 +45,7 @@ export class Controller {
             $('#shiftR').prop('checked', this.setLS.loadSetting("ioClkSet").checkR);
             $('#shiftG').prop('checked', this.setLS.loadSetting("ioClkSet").checkG);
             $('#shiftB').prop('checked', this.setLS.loadSetting("ioClkSet").checkB);
-        } else {
-            this.rgbRand(function () { });
+            this.rgbRand(false, this.setLS.loadSetting("ioClkSet").minMax.split(","));
         }
         this.model = new Clock();
         this.raster = new Raster();
@@ -57,19 +55,19 @@ export class Controller {
         this.res = 0;
 
         setInterval(() => {
-            this.updateView();            
-            this.rgbRand(function () { });           
+            this.updateView();
+            this.rgbRand();
         }, 1000)
 
     }
 
-    saveListener(){
+    saveListener() {
         $(".radioBtnShape, .radioBtnFormat, .shiftClass, .colClass").click(() => {
             this.setLS.saveSetting("ioClkSet", this.ioClkSet());
         });
     }
 
-    radioListener() {        
+    radioListener() {
 
         for (let i = 0; i < this.classRadioShape.length; i++) {
             $(this.classRadioShape[i]).click(() => {
@@ -78,6 +76,8 @@ export class Controller {
         }
     }
 
+
+    //assign every ui setting in a json
     ioClkSet() {
         let setting = {
             r: $("#red").val(),
@@ -87,7 +87,8 @@ export class Controller {
             checkR: $('#shiftR').is(':checked'),
             checkG: $('#shiftG').is(':checked'),
             checkB: $('#shiftB').is(':checked'),
-            shape: $("input:radio[name='format']:checked").val()
+            shape: $("input:radio[name='format']:checked").val(),
+            minMax: this.posStr
         }
 
         return setting;
@@ -158,18 +159,35 @@ export class Controller {
         $("#RadialGradient5").append(this.stop2);
     }
 
-    rgbRand(callback) {
+    /*
+     *load once the slider directions from the ls, 
+     *else alternate from 0 to 255 in 7.5 steps for each rgb component
+     */
+
+    rgbRand(loadedOnce = true, minMax = []) {
         let rgb = new Array(3);
+        let pos = [];
+
         for (var i = 0; i < rgb.length; i++) {
             rgb[i] = parseInt(this.colClass[i].value);
         }
         for (var i = 0; i < this.colClass.length; i++) {
-            if (this.colClass[i].value == 0) {
-                this.op[i] = 7.5;
+            if (!loadedOnce) {
+                if (minMax[i] == 0) {
+                    this.op[i] = 7.5;
+                }
+                if (minMax[i] == 255) {
+                    this.op[i] = -7.5;
+                }
+            } else {
+                if (this.colClass[i].value == 0) {
+                    this.op[i] = 7.5;
+                }
+                if (this.colClass[i].value == 255) {
+                    this.op[i] = -7.5;
+                }
             }
-            if (this.colClass[i].value == 255) {
-                this.op[i] = -7.5;
-            }
+            pos[i] = (this.op[i] > 0) ? 0 : 255;
             rgb[i] += this.op[i];
         }
         for (var i = 0; i < rgb.length; i++) {
@@ -177,7 +195,8 @@ export class Controller {
                 this.colClass[i].value = rgb[i];
             }
         }
-        callback(this.setGradient());
+        this.posStr = pos.join(",");
+        this.setGradient();
     }
 
     setGradient() {
