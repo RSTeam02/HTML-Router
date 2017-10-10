@@ -10,7 +10,7 @@ Used node modules:
 start: nodejs server.js
 
 When clicking on a navigation link it routes and starts up an app with the desired view (handlebars) through the main template. (express.js)
-HTML only consists of static elements and through http protocol it remains stateless. The client side JS saves states of UI inputs if the app or the browser is closed via LocalStorage or json.
+HTML only consists of static elements and through http protocol it remains stateless. If the app or the browser is closed, all settings will be saved via LocalStorage or json.
 
-10.10. => save all UI-settings via LocalStorage
+10.10. => autosave all UI-settings (LS)
  
