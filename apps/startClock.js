@@ -1,6 +1,7 @@
 import {Controller} from './ioClock/msvc/controller.js';
-
+import { SettingsLS } from './settingsLS.js';
 
 window.onload = function() { 
-    new Controller();    
+    let setLS = new SettingsLS();
+    new Controller(setLS);    
 }

@@ -10,39 +10,62 @@ import { LSArray } from '../ls/lsArray.js';
 import { Led } from '../mvc/led.js';
 
 
+
 export class Controller extends SVGMatObject {
 
-	constructor() {
-		super();	
+	constructor(setLS) {
+		super();
 		this.i = 0;
-		this.rcVal();
+		this.setLS = setLS;
+		this.ptnMakSet();
 		this.txtReader = new TextReader();
 		this.ledArr = [];
-		this.shape = $("input:radio[name='figure']:checked").val();
-		this.color = this.colorChooser();
+		
 		this.ptnSnapshot = new PatternSnapshot();
 		this.patternArr = [];
-		this.ledListener();
+
+
 		this.lsArr = new LSArray();
 		this.lsArr.setLSName("patternArr");
+
+
 		(!localStorage[this.lsArr.getLSName()])
 			? this.lsArr.setLSArr(this.patternArr)
 			: this.patternArr = this.lsArr.retrieveLSArr(this.lsArr.getLSName());
+
 		this.classRadio = document.getElementsByClassName("radioBtn");
 		this.printSnapshot();
+		this.saveListener();
 		this.buttonListener();
 		this.ptrnListener();
-
+		
+		if (this.setLS.loadSetting("ptnMakSet") !== null) {
+			$("#row").val(this.setLS.loadSetting("ptnMakSet").row);
+			$("#col").val(this.setLS.loadSetting("ptnMakSet").col);
+			$(`#${this.setLS.loadSetting("ptnMakSet").color}`).prop('checked',true);
+			$(`#${this.setLS.loadSetting("ptnMakSet").shape}`).prop('checked',true);
+			$(`#${this.setLS.loadSetting("ptnMakSet").func}`).prop('checked',true);
+			this.shape = this.setLS.loadSetting("ptnMakSet").shape;
+			$("#slider").val(this.setLS.loadSetting("ptnMakSet").speed);
+			this.initRefresh();			
+			this.ledListener(this.lsArr.retrieveLSArr(this.lsArr.getLSName())[parseInt(this.setLS.loadSetting("ptnMakSet").id)]);
+		}else{
+			
+			this.shape = $("input:radio[name='figure']:checked").val();
+			this.color = this.colorChooser();
+			this.ledListener();
+		}
+		
 	}
 
 
 	initRefresh() {
 
 		let maximum = parseInt(document.getElementById("slider").max) + 50;
-		let countDesc = 0;
+		let countDesc;
 		clearInterval(this.interval);
 		if ($("#slider").val() != 0) {
-			countDesc = maximum - $("#slider").val();
+			let countDesc = maximum - $("#slider").val();
 			$("#updateSlider").html(`Interval Slider, update every ${countDesc}ms (play):`);
 			this.newMatrix(countDesc);
 		} else {
@@ -59,28 +82,40 @@ export class Controller extends SVGMatObject {
 			this.clearSVGMat();
 			loopCnt = (this.i++) % ledIO.length;
 			this.svgRaster(ledIO[loopCnt], this.shape, this.colorChooser());
-
 		}, update);
 	}
 
-	rcVal() {
-		
+	ptnMakSet() {
+
 		let rc;
 		return rc = {
+			id: this.currentId,
+			playId: this.i,
+			shape: $("input:radio[name='figure']:checked").val(),
 			row: $("#row").val(),
 			col: $("#col").val(),
-			rxc: $("#row").val() * $("#col").val()
+			rxc: $("#row").val() * $("#col").val(),
+			color: $("input:radio[name='rgb']:checked").attr("id"),
+			speed: $("#slider").val(),
+			func: $("input:radio[name='mode']:checked").attr("id")
+	
 		}
 	}
 
+	saveListener(){
+		$(".color, .shape, .func, .rc, .mkInput, .shape, .listElement").click(()=>{
+			this.setLS.saveSetting("ptnMakSet", this.ptnMakSet());
+		});
+	}
 
-	buttonListener() {
+	buttonListener() {	
+
 		//set number of row and columns
 		let rcSlider = document.getElementsByClassName("rc");
 		for (var i = 0; i < rcSlider.length; i++) {
 			rcSlider[i].addEventListener("input", () => {
-				this.ledListener();
-				$("#info").html(`row: ${this.rcVal().row}, col: ${this.rcVal().col}, r*c: ${this.rcVal().rxc}`);
+				this.ledListener();				
+				$("#info").html(`row: ${this.ptnMakSet().row}, col: ${this.ptnMakSet().col}, r*c: ${this.ptnMakSet().rxc}`);
 			});
 		}
 
@@ -100,7 +135,7 @@ export class Controller extends SVGMatObject {
 
 		//switch between patterns from 250 to 1000ms 
 		$(".mkInput").on("input", () => {
-			this.initRefresh();
+			this.initRefresh();			
 		});
 
 
@@ -116,7 +151,7 @@ export class Controller extends SVGMatObject {
 
 		//select square or circle shape
 		for (let i = 0; i < radioShape.length; i++) {
-			$(radioShape[i]).click(() => {
+			$(radioShape[i]).click(() => {				
 				this.shape = $("input:radio[name='figure']:checked").val();
 			});
 		}
@@ -127,27 +162,22 @@ export class Controller extends SVGMatObject {
 			$("input:radio[name='mode']").val(["draft"]);
 		});
 
-		//remove all patterns from snapshot (LS)
-		$("#removeAll").click(() => {
-			this.patternArr = [];
-			this.lsArr.removeAllElement();
+		//edit and append or save pattern of current id 
+		$(".updateList").click((event) => {
+			console.log(event.currentTarget.id)
+			if("saveBtn" === event.currentTarget.id){				
+				this.patternArr[this.currentId] = this.savePattern();
+				this.lsArr.setLSArr(this.patternArr);
+			}else if("appendBtn" === event.currentTarget.id){
+				this.patternArr.push(this.savePattern());
+				this.lsArr.setLSArr(this.patternArr);
+			}else{
+				this.patternArr = [];
+				this.lsArr.removeAllElement();
+			}			
+			
 			this.printSnapshot();
 		});
-		//edit and save pattern of current id 
-		$("#saveBtn").click(() => {
-			this.patternArr[this.currentId] = this.savePattern();
-			this.lsArr.setLSArr(this.patternArr);
-			this.printSnapshot();
-		});
-
-		//append new pattern in array
-		$("#appendBtn").click(() => {
-			this.patternArr.push(this.savePattern());
-			this.lsArr.setLSArr(this.patternArr);
-			this.printSnapshot();
-
-		});
-
 	}
 
 	//insert, remove, edit pattern by selected id
@@ -168,6 +198,7 @@ export class Controller extends SVGMatObject {
 			} else {
 				this.ledListener(ledIO);
 			}
+			
 		});
 	}
 
@@ -195,7 +226,7 @@ export class Controller extends SVGMatObject {
 		this.clearSVGMat();
 		this.svgRaster(arr, this.shape, this.colorChooser());
 		//handler/listener for each led
-		for (let j = 0; j < this.rcVal().rxc; j++) {
+		for (let j = 0; j < this.ptnMakSet().rxc; j++) {
 			(() => {
 				let enabled = true;
 				//access Matrix through handler
@@ -214,9 +245,9 @@ export class Controller extends SVGMatObject {
 		let y = 0;
 		let ledNo = 0;
 
-		for (let i = 0; i < this.rcVal().row; i++) {
+		for (let i = 0; i < this.ptnMakSet().row; i++) {
 			let x = 0;
-			for (let j = 0; j < this.rcVal().col; j++) {
+			for (let j = 0; j < this.ptnMakSet().col; j++) {
 				this.ledArr[ledNo] = new Led();
 				this.ledArr[ledNo].setOn(1, `#${color}`);
 				this.ledArr[ledNo].setOff(.2, "#RadialGradient2");
@@ -262,12 +293,16 @@ export class Controller extends SVGMatObject {
 	colorChooser() {
 		let allColor = document.getElementsByClassName("color");
 		let rndVal = Math.floor(Math.random() * (allColor.length - 1));
-		let color = $("input:radio[name='rgb']:checked").val();
-		if (color === "Random") {
-			color = allColor[rndVal].value;
-		}
+		let color= $("input:radio[name='rgb']:checked").attr("id");		
+		let colorVal;
 
-		return color;
+		if (color === "random") {
+			colorVal = allColor[rndVal].value;
+		}else{
+			colorVal = $("input:radio[name='rgb']:checked").val();
+		}
+		
+		return colorVal;
 	}
 
 	//save pattern as binary array string
@@ -276,7 +311,7 @@ export class Controller extends SVGMatObject {
 		let bitStr = "";
 		for (let i = 0; i < $(".mat").length; i++) {
 			bit = (($(`#${i}`).attr("fill-opacity")) === "1") ? "1" : "0";
-			bitStr += ((i + 1) % this.rcVal().col === 0 && i !== $(".mat").length - 1) ? `${bit}\r\n` : `${bit}`;
+			bitStr += ((i + 1) % this.ptnMakSet().col === 0 && i !== $(".mat").length - 1) ? `${bit}\r\n` : `${bit}`;
 		}
 
 		return bitStr.split("\r\n");

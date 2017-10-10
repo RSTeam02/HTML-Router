@@ -16,7 +16,8 @@ import { Raster } from './raster.js';
 
 export class Controller {
 
-    constructor() {        
+    constructor(setLS) {
+        this.setLS = setLS;
         this.shiftClass = document.getElementsByClassName("shiftClass");
         this.colClass = document.getElementsByClassName("colClass");
         for (let i = 0; i < this.colClass.length; i++) {
@@ -30,28 +31,66 @@ export class Controller {
         this.op.fill(7.5);
         this.initGradient();
         this.RGBSlider();
-        this.rgbRand(function () { });
+        this.saveListener();
+        this.radioListener();
+
+        if (this.setLS.loadSetting("ioClkSet") !== null) {
+            $(`#${this.setLS.loadSetting("ioClkSet").shape}`).prop('checked', true);
+            $(`#${this.setLS.loadSetting("ioClkSet").apm}`).prop('checked', true);
+            $("#redInfo").html(`Red: ${this.setLS.loadSetting("ioClkSet").r}`);
+            $("#greenInfo").html(`Green: ${this.setLS.loadSetting("ioClkSet").g}`);
+            $("#blueInfo").html(`Blue: ${this.setLS.loadSetting("ioClkSet").b}`);
+            $("#red").val(this.setLS.loadSetting("ioClkSet").r);
+            $("#green").val(this.setLS.loadSetting("ioClkSet").g);
+            $("#blue").val(this.setLS.loadSetting("ioClkSet").b);
+            $('#shiftR').prop('checked', this.setLS.loadSetting("ioClkSet").checkR);
+            $('#shiftG').prop('checked', this.setLS.loadSetting("ioClkSet").checkG);
+            $('#shiftB').prop('checked', this.setLS.loadSetting("ioClkSet").checkB);
+        } else {
+            this.rgbRand(function () { });
+        }
         this.model = new Clock();
         this.raster = new Raster();
         this.textView = new SVGTextObj();
         this.selectStrategy();
-        this.radioListener();
-        console.log($("#active").attr("id"));
+
         this.res = 0;
 
         setInterval(() => {
-            this.updateView();
-            this.rgbRand(function () { });
+            this.updateView();            
+            this.rgbRand(function () { });           
         }, 1000)
 
     }
-    
-    radioListener() {
+
+    saveListener(){
+        $(".radioBtnShape, .radioBtnFormat, .shiftClass, .colClass").click(() => {
+            this.setLS.saveSetting("ioClkSet", this.ioClkSet());
+        });
+    }
+
+    radioListener() {        
+
         for (let i = 0; i < this.classRadioShape.length; i++) {
             $(this.classRadioShape[i]).click(() => {
                 this.selectStrategy();
             });
         }
+    }
+
+    ioClkSet() {
+        let setting = {
+            r: $("#red").val(),
+            g: $("#green").val(),
+            b: $("#blue").val(),
+            apm: $("input:radio[name='apm']:checked").attr("id"),
+            checkR: $('#shiftR').is(':checked'),
+            checkG: $('#shiftG').is(':checked'),
+            checkB: $('#shiftB').is(':checked'),
+            shape: $("input:radio[name='format']:checked").val()
+        }
+
+        return setting;
     }
 
     selectStrategy() {
