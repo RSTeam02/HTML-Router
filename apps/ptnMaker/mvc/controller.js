@@ -20,7 +20,7 @@ export class Controller extends SVGMatObject {
 		this.ptnMakSet();
 		this.txtReader = new TextReader();
 		this.ledArr = [];
-		
+
 		this.ptnSnapshot = new PatternSnapshot();
 		this.patternArr = [];
 
@@ -38,24 +38,24 @@ export class Controller extends SVGMatObject {
 		this.saveListener();
 		this.buttonListener();
 		this.ptrnListener();
-		
+
 		if (this.setLS.loadSetting("ptnMakSet") !== null) {
 			$("#row").val(this.setLS.loadSetting("ptnMakSet").row);
 			$("#col").val(this.setLS.loadSetting("ptnMakSet").col);
-			$(`#${this.setLS.loadSetting("ptnMakSet").color}`).prop('checked',true);
-			$(`#${this.setLS.loadSetting("ptnMakSet").shape}`).prop('checked',true);
-			$(`#${this.setLS.loadSetting("ptnMakSet").func}`).prop('checked',true);
+			$(`#${this.setLS.loadSetting("ptnMakSet").color}`).prop('checked', true);
+			$(`#${this.setLS.loadSetting("ptnMakSet").shape}`).prop('checked', true);
+			$(`#${this.setLS.loadSetting("ptnMakSet").func}`).prop('checked', true);
 			this.shape = this.setLS.loadSetting("ptnMakSet").shape;
 			$("#slider").val(this.setLS.loadSetting("ptnMakSet").speed);
-			this.initRefresh();			
+			this.initRefresh();
 			this.ledListener(this.lsArr.retrieveLSArr(this.lsArr.getLSName())[parseInt(this.setLS.loadSetting("ptnMakSet").id)]);
-		}else{
-			
+		} else {
+
 			this.shape = $("input:radio[name='figure']:checked").val();
 			this.color = this.colorChooser();
 			this.ledListener();
 		}
-		
+
 	}
 
 
@@ -98,23 +98,23 @@ export class Controller extends SVGMatObject {
 			color: $("input:radio[name='rgb']:checked").attr("id"),
 			speed: $("#slider").val(),
 			func: $("input:radio[name='mode']:checked").attr("id")
-	
+
 		}
 	}
 
-	saveListener(){
-		$(".color, .shape, .func, .rc, .mkInput, .shape, .listElement").click(()=>{
+	saveListener() {
+		$(".color, .shape, .func, .rc, .mkInput, .shape, .listElement").click(() => {
 			this.setLS.saveSetting("ptnMakSet", this.ptnMakSet());
 		});
 	}
 
-	buttonListener() {	
+	buttonListener() {
 
 		//set number of row and columns
 		let rcSlider = document.getElementsByClassName("rc");
 		for (var i = 0; i < rcSlider.length; i++) {
 			rcSlider[i].addEventListener("input", () => {
-				this.ledListener();				
+				this.ledListener();
 				$("#info").html(`row: ${this.ptnMakSet().row}, col: ${this.ptnMakSet().col}, r*c: ${this.ptnMakSet().rxc}`);
 			});
 		}
@@ -135,7 +135,7 @@ export class Controller extends SVGMatObject {
 
 		//switch between patterns from 250 to 1000ms 
 		$(".mkInput").on("input", () => {
-			this.initRefresh();			
+			this.initRefresh();
 		});
 
 
@@ -151,7 +151,7 @@ export class Controller extends SVGMatObject {
 
 		//select square or circle shape
 		for (let i = 0; i < radioShape.length; i++) {
-			$(radioShape[i]).click(() => {				
+			$(radioShape[i]).click(() => {
 				this.shape = $("input:radio[name='figure']:checked").val();
 			});
 		}
@@ -165,17 +165,17 @@ export class Controller extends SVGMatObject {
 		//edit and append or save pattern of current id 
 		$(".updateList").click((event) => {
 			console.log(event.currentTarget.id)
-			if("saveBtn" === event.currentTarget.id){				
+			if ("saveBtn" === event.currentTarget.id) {
 				this.patternArr[this.currentId] = this.savePattern();
 				this.lsArr.setLSArr(this.patternArr);
-			}else if("appendBtn" === event.currentTarget.id){
+			} else if ("appendBtn" === event.currentTarget.id) {
 				this.patternArr.push(this.savePattern());
 				this.lsArr.setLSArr(this.patternArr);
-			}else{
+			} else {
 				this.patternArr = [];
 				this.lsArr.removeAllElement();
-			}			
-			
+			}
+
 			this.printSnapshot();
 		});
 	}
@@ -198,7 +198,7 @@ export class Controller extends SVGMatObject {
 			} else {
 				this.ledListener(ledIO);
 			}
-			
+
 		});
 	}
 
@@ -293,15 +293,15 @@ export class Controller extends SVGMatObject {
 	colorChooser() {
 		let allColor = document.getElementsByClassName("color");
 		let rndVal = Math.floor(Math.random() * (allColor.length - 1));
-		let color= $("input:radio[name='rgb']:checked").attr("id");		
+		let color = $("input:radio[name='rgb']:checked").attr("id");
 		let colorVal;
 
 		if (color === "random") {
 			colorVal = allColor[rndVal].value;
-		}else{
+		} else {
 			colorVal = $("input:radio[name='rgb']:checked").val();
 		}
-		
+
 		return colorVal;
 	}
 
