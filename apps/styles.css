@@ -75,3 +75,34 @@ ul#nav {
 	padding: 5px 5%;
 	text-align: center;
 }
+
+#display{
+    background-color: black;
+}
+#hour
+{
+    fill: deepskyblue;				
+    
+    
+}
+#min 
+{
+
+    fill: orangered;				
+    
+    
+}
+
+form{
+    font-family: arial;
+    
+    color: white;
+}
+
+#sec
+{
+    fill: lime;				
+    
+    
+}
+

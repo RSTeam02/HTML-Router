@@ -32,5 +32,9 @@ var routing = function (app) {
     res.render('ioclock', { ioclock: true });
   });
 
+  app.get('/analogclk', function (req, res) {
+    res.render('analogclk', { analogclk: true });
+  });
+
 }
 module.exports.routing = routing;   
