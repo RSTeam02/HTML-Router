@@ -1,0 +1,37 @@
+<h2>XY-Dice</h2>
+<form name="autoForm">
+    <fieldset>
+
+        <legend>Enter Name</legend>
+        <input type="text" id="name" />
+
+    </fieldset>
+    <fieldset>
+
+        <legend>Enter Rastersize</legend>
+        x-Axis:
+        <input class="xy" type="range" min="1" max="10" value="0" id="x"> y-Axis:
+        <input class="xy" type="range" min="1" max="10" value="0" id="y">
+        <div id="info"></div>
+    </fieldset>
+    <fieldset>
+        <legend>Display</legend>
+        <input class="rbSet" type="radio" id="dface" name="format" value="dface" checked>diceface</input>
+        <input class="rbSet" type="radio" id="dec" name="format" value="dec">integer</input>
+    </fieldset>
+    <fieldset>
+        <input type="button" value="roll" id="rollBtn">
+    </fieldset>
+</form>
+<table id="diceTable">
+
+</table>
+
+<p id="pts">0 pts.</p>
+
+<div id="test"></div>
+<div id="playerInfo"></div>
+
+<table id="scoreList" class="text"></table>
+<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+<script src="startDice.js" type="module"></script>

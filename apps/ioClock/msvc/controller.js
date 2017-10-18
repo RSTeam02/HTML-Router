@@ -77,7 +77,7 @@ export class Controller {
     }
 
 
-    //assign every ui setting in a json
+    //assign every ui setting to a json
     ioClkSet() {
         let setting = {
             r: $("#red").val(),

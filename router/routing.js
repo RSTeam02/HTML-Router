@@ -11,7 +11,7 @@ var expressHbs = require('express3-handlebars');
 var bodyParser = require('body-parser');
 
 
-var routing = function (app) {
+var startup = function (app) {
 
   app.use(express.static(__dirname + '/../apps'));
   app.engine('hbs', expressHbs({ extname: 'hbs', defaultLayout: 'main.hbs' }));
@@ -25,7 +25,6 @@ var routing = function (app) {
 
   app.get('/', function (req, res) {
     res.render('index', { index: true });
-
   });
 
   app.get('/ioclock', function (req, res) {
@@ -36,5 +35,9 @@ var routing = function (app) {
     res.render('analogclk', { analogclk: true });
   });
 
+  app.get('/xdice', function (req, res) {
+    res.render('xdice', { xdice: true });
+  });
+
 }
-module.exports.routing = routing;   
+module.exports.startup = startup;   

@@ -1,33 +1,19 @@
 
-.title {
-    color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
-}
-
-fieldset {
-    color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
-}
 body {
     background-color: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
 }
 
 fieldset {
     border: none;
 }
 
-#modes {
-    color: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
-}
+
 .listElement{
     cursor: pointer;			
 
 }
-h2{
-    color: white;
-    
-}
+
 
 ul#snapshot li{			
     list-style: none;	
@@ -49,18 +35,17 @@ ul#nav li{
 
 ul#nav li a {
 	font-size: 25px;
-	color:white;
-	padding: 10px 10px 10px 10px;
-    border: 1px solid black;
+	padding: 10px 10px 10px 10px; 
     font-weight: normal;
+    text-decoration: none;
 }
 
-ul#nav li a:hover {
-	font-size: 25px;
-	color:white;
-	padding: 10px 10px 10px 10px;
-    border: 1px solid black;
+ul#nav li a:hover { 
     font-weight: bold;
+}
+
+ul#nav li a:visited {
+	color: white;
 }
      
      
@@ -87,22 +72,22 @@ ul#nav {
 }
 #min 
 {
-
-    fill: orangered;				
-    
-    
-}
-
-form{
-    font-family: arial;
-    
-    color: white;
+    fill: orangered; 
 }
 
 #sec
 {
-    fill: lime;				
-    
-    
+    fill: lime;   
 }
+
+
+body{
+    color: white;
+}
+
+.diceRow, .diceCol{
+    padding-right: .6em;  
+    font-size: 2em;
+}
+
 
