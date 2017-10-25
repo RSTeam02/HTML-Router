@@ -5,7 +5,7 @@
 
 import { View } from "./view.js";
 import { TestWorker } from "../testworker/test.js";
-import { Player } from "./player.js";
+import { Player } from "../../player.js";
 
 export class Controller {
 
@@ -25,7 +25,7 @@ export class Controller {
             $("#y").val(this.setLS.loadSetting("diceSet").y); 
             $(`#${this.setLS.loadSetting("diceSet").face}`).prop('checked', true);    
         }
-        console.log(this.diceFace)
+        //console.log(this.diceFace)
         this.saveListener();
         this.socketOn();
         this.getXMLHttp();
@@ -111,6 +111,7 @@ export class Controller {
     //assign every ui setting to a json
     diceSet() {
         let setting = {
+            game: "dice",
             x: $("#x").val(),
             y: $("#y").val(),   
             face: $('input[name=format]:checked').val()
@@ -150,6 +151,7 @@ export class Controller {
 
     scoreEntry(pts) {
         let player = new Player();
+        player.setGame("dice");
         player.setX($("#x").val());
         player.setY($("#y").val());
         player.setName($("#name").val());
@@ -172,7 +174,7 @@ export class Controller {
     }
 
     getXMLHttp() {
-        $.get("diceMatrix/scorefile/score.json", (data, status) => {
+        $.get("../scorefile/score.json", (data, status) => {
             this.view.scoreTable(data);
             //console.log(status);
         });

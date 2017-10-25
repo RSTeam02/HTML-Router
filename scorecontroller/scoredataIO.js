@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var filename = __dirname + '/../apps/diceMatrix/scorefile/score.json';
+var filename = __dirname + '/../apps/scorefile/score.json';
 var scores = [];
 var clients = 0;
 var fs = require('fs');
@@ -24,13 +24,15 @@ var initScore = function (app, io) {
 		socket.on("message", function (msg) {
 			io.sockets.emit("message", msg);
 			var currentMode = {
+				"game": msg.game,
+				"time": msg.time,
 				"x": msg.x,
 				"y": msg.y
 			};
 			var topScore = [];
 			//after adding new score entry, sort, limit and convert to text  
-			scores.push({ 'x': msg.x, 'y': msg.y, 'name': msg.name, 'score': parseFloat(msg.score) });
-			topScore = _.orderBy(scores, ['x', 'y', 'score'], ['asc', 'asc', 'desc']);
+			scores.push({ 'game':msg.game, 'x': msg.x, 'y': msg.y, 'name': msg.name, 'time': msg.time, 'score': parseInt(msg.score) });
+			topScore = _.orderBy(scores, ['game', 'x', 'y','score'], ['asc','asc', 'asc', 'desc']);
 			scores = topScore;
 			spliceData(topScore, currentMode, function (data) {
 				arr2JSON(data, function (str) {

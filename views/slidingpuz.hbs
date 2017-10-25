@@ -1,0 +1,35 @@
+<h2>Numeric Sliding-Puzzle NxN</h2>
+
+<svg id="svgContent" version="1.1">
+    <g id="tileDisplay"></g>
+</svg>
+<p id="pInfo" class="txt"></p>
+<form name="selector">
+    <fieldset>
+        <legend>
+            Select Game-Mode
+        </legend>
+        <input class="gmode" type="radio" id="normal" name="gm" checked>Normal</input>
+        <input class="gmode" type="radio" id="time" name="gm">Time-Challenge</input>
+
+    </fieldset>
+    <fieldset>
+        <legend id="formatInfo">
+
+        </legend>
+        <fieldset>
+
+            <input class="mxn" type="range" min="2" max="30" value="2" id="slider">
+
+        </fieldset>
+
+    </fieldset>
+
+    <input type="button" value="new game" id="ng" class="mxn">
+
+    
+</form>
+<table id="scoreList" class="text"></table>
+
+<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+<script src="startPuzzle.js" type="module"></script>

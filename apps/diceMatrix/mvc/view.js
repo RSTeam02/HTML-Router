@@ -42,7 +42,7 @@ export class View {
         $("#scoreList").html("");
         $("#scoreList").append("<th>Rank</th><th>Player</th><th>Score</th>");
         $.each(rows, (k, v) => {
-            if ($("#x").val() === v.x && $("#y").val() === v.y) {
+            if ("dice" === v.game && $("#x").val() === v.x && $("#y").val() === v.y) {
                 $("#scoreList").append(`<tr class = "row">
                 <td class = "col" align = "right">${rank++}.</td>
                 <td class = "col">${v.name}</td>

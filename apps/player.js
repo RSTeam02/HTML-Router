@@ -5,12 +5,20 @@ export class Player {
         this.score = 0;
     }
 
+    setGame(game){
+        this.game = game;
+    }
+
     setName(name) {
         this.name = name;
     }
 
     setScore(score) {
         this.score = score;
+    }
+
+    setTime(time){
+        this.time = time;
     }
 
     setX(x) {
@@ -24,6 +32,15 @@ export class Player {
     getX() {
         return this.y;
     }
+
+    getGame() {
+        return this.game;
+    }
+
+    getTime(){
+        return this.time;
+    }
+
     getScore() {
         return this.score;
     }

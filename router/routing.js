@@ -31,6 +31,10 @@ var startup = function (app) {
     res.render('ioclock', { ioclock: true });
   });
 
+  app.get('/slidingpuz', function (req, res) {
+    res.render('slidingpuz', { slidingpuz: true });
+  });
+
   app.get('/analogclk', function (req, res) {
     res.render('analogclk', { analogclk: true });
   });
@@ -38,6 +42,8 @@ var startup = function (app) {
   app.get('/xdice', function (req, res) {
     res.render('xdice', { xdice: true });
   });
+
+
 
 }
 module.exports.startup = startup;   
