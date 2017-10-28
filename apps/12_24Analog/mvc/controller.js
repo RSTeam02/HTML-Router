@@ -11,6 +11,8 @@ export class Controller {
         this.model = new Model();
         this.view = new View();
         if (this.setLS.loadSetting("analogClkSet") !== null) {
+            $("#hRange").val(this.setLS.loadSetting("analogClkSet").hRange);
+            $("#mRange").val(this.setLS.loadSetting("analogClkSet").mRange);
             $("#24Check").prop('checked', this.setLS.loadSetting("analogClkSet").check24);
             $("#numCheck").prop('checked', this.setLS.loadSetting("analogClkSet").checkNum);
             $("#rectCheck").prop('checked', this.setLS.loadSetting("analogClkSet").checkRect);
@@ -23,8 +25,6 @@ export class Controller {
         this.saveListener();
         this.enableNum24();
         this.pMode();
-
-
     }
 
     pCheck() {
@@ -35,9 +35,7 @@ export class Controller {
     }
 
     pMode() {
-        this.view.drawCircleOfRects();
-
-        if ($('#phraseCheck').is(':checked')) {
+         if ($('#phraseCheck').is(':checked')) {
             this.rotateHM();
             clearInterval(this.interval);
         } else {
@@ -84,17 +82,18 @@ export class Controller {
         return this.hms;
     }
 
-    //mark rectangles => slow
-    rotateHM() {
-        //this.view.drawCircleOfRects();
+    //phrase output: pass values from slider (hour, min) to phrasebuilder, hands
+    rotateHM() {        
+        this.view.drawCircleOfRects();
         this.setHms($("#hRange").val(), $("#mRange").val());
         $("#hInfo").html(`hour: ${this.getHms().hour}`);
         $("#mInfo").html(`min: ${this.getHms().min}`);
-        //this.enableMarkRect(this.getHms(), false);
+        this.enableMarkRect(this.getHms(), false);
         var phrase = this.model.buildPhrase(this.getHms(), this.numerals);
         this.view.setViewHms(`${phrase}\u00A0`, `\u00A0${this.model.dayState(this.getHms())}.`);
         this.view.rotateHand(((this.getHms().hour % this.mode) + this.getHms().min / 60) * 30 / this.divider, this.getHms().min * 6);
     }
+
     //create Date instance split into time, date outputs, pass to methods and call
     startClockwork() {
         var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
@@ -125,6 +124,8 @@ export class Controller {
 
     analogClkSet() {
         let setting = {
+            hRange: $("#hRange").val(),
+            mRange: $("#mRange").val(),
             check24: $('#24Check').is(':checked'),
             checkNum: $('#numCheck').is(':checked'),
             checkRect: $('#rectCheck').is(':checked'),
@@ -135,7 +136,7 @@ export class Controller {
     }
 
     saveListener() {
-        $("#numCheck, #rectCheck, #24Check, #info, #phraseCheck").click(() => {
+        $("#numCheck, #rectCheck, #24Check, #info, #phraseCheck, .hmRange").click(() => {
             this.setLS.saveSetting("analogClkSet", this.analogClkSet());
         });
     }

@@ -25,11 +25,11 @@ export class View {
 
     //face numbering
     drawWrittenNums(faceAttr) {
-        var writtenNum;
-        var numDisp = document.getElementById("num");
+        var writtenNum;       
 
-        while (numDisp.lastChild)
-            numDisp.removeChild(numDisp.lastChild);
+        while (num.lastChild){
+            num.removeChild(num.lastChild);         
+        }
 
         if (faceAttr.enable) {
             for (var i = 0; i < faceAttr.mode; i++) {
@@ -43,7 +43,7 @@ export class View {
                 writtenNum = faceAttr.numerals[i];
                 var textNode = document.createTextNode(writtenNum);
                 numString.appendChild(textNode);
-                numDisp.appendChild(numString);
+                num.appendChild(numString);
             }
         }
 
@@ -51,6 +51,10 @@ export class View {
 
     //draw non filled rects in circular shape
     drawCircleOfRects() {
+
+        while (scala.firstChild){
+            scala.removeChild(scala.firstChild);            
+        }
 
         for (var i = 0; i < 60; i++) {
             this.shape[i] = document.createElementNS(this.svgns, "rect");

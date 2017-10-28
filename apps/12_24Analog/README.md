@@ -1,6 +1,7 @@
 Analog Clock with 12/24mode, phrase output, MVC.
 
-+ 28.10.: phrase output test: move hour, minute range sliders to check time in phrases
++ 28.10.: mark rectangle fix 
++ 28.10.: phrase output test => move hour, minute range sliders to check time in phrases
 
 
 
