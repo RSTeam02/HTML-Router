@@ -50,20 +50,20 @@ export class Model {
 
 		var hour0_12 = 0, phrase = "";
 
-		hour0_12 = (part[0] === 12) ? 0 : part[0] % 12;
+		hour0_12 = (part.hour === 12) ? 0 : part.hour % 12;
 
-		if (part[1] === 0)
-			phrase = `It's ${this.num2word((part[0] % 12), numerals)} o'clock`;
-		else if (part[1] === 15)
-			phrase = `It's quarter past ${this.num2word((part[0] % 12), numerals)}`;
-		else if (part[1] < 30)
-			phrase = `It's ${this.num2word(part[1], numerals)} ${this.minMins(part)} past ${this.num2word(part[0] % 12, numerals)}`;
-		else if (part[1] === 30)
-			phrase = `It's half past ${this.num2word((part[0] % 12), numerals)}`;
-		else if (part[1] === 45)
+		if (part.min === 0)
+			phrase = `It's ${this.num2word((part.hour % 12), numerals)} o'clock`;
+		else if (part.min === 15)
+			phrase = `It's quarter past ${this.num2word((part.hour % 12), numerals)}`;
+		else if (part.min < 30)
+			phrase = `It's ${this.num2word(part.min, numerals)} ${this.minMins(part)} past ${this.num2word(part.hour % 12, numerals)}`;
+		else if (part.min === 30)
+			phrase = `It's half past ${this.num2word((part.hour % 12), numerals)}`;
+		else if (part.min === 45)
 			phrase = `It's quarter to ${this.num2word((parseInt(hour0_12) + 1), numerals)}`;
 		else
-			phrase = `It's ${this.num2word((60 - part[1]), numerals)} ${this.minMins(part)} to ${this.num2word((1 + parseInt(hour0_12)), numerals)}`;
+			phrase = `It's ${this.num2word((60 - part.min), numerals)} ${this.minMins(part)} to ${this.num2word((1 + parseInt(hour0_12)), numerals)}`;
 
 		return phrase;
 	}
@@ -75,25 +75,25 @@ export class Model {
 		var ampm = "";
 		var phase;
 
-		if (part[0] === 0) {
-			part[0] = 24;
+		if (part.hour === 0) {
+			part.hour = 24;
 		}
 
-		ampm = (part[0] >= 12 && part[0] < 24) ? "PM" : "AM";
+		ampm = (part.hour >= 12 && part.hour < 24) ? "PM" : "AM";
 
 
-		if (part[0] === 12 && part[1] === 0 || part[0] === 24 && part[1] === 0) {
+		if (part.hour === 12 && part.min === 0 || part.hour === 24 && part.min === 0) {
 
 			if (ampm === "AM")
 				phase = "at midnight";
 			else
 				phase = "at noon";
-		} else if (part[0] % 12 > 4 && part[0] % 12 <= 8) {
+		} else if (part.hour % 12 > 4 && part.hour % 12 <= 8) {
 			if (ampm === "AM")
 				phase = "in the morning";
 			else
 				phase = "in the evening";
-		} else if (part[0] % 12 > 8 && part[0] % 12 < 12) {
+		} else if (part.hour % 12 > 8 && part.hour % 12 < 12) {
 			if (ampm === "AM")
 				phase = "before noon";
 			else
@@ -110,7 +110,7 @@ export class Model {
 	//except of 1 minute to or past, every other are minutes  
 	minMins(part) {
 		var minStr;
-		minStr = (part[1] !== 1 && part[1] !== 59) ? "minutes" : "minute";
+		minStr = (part.min !== 1 && part.min !== 59) ? "minutes" : "minute";
 		return minStr;
 
 	}

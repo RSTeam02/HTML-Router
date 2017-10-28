@@ -8,7 +8,7 @@ export class View {
     }
 
     //word output of min , hour, sec
-    setViewHms(h, m, s) {
+    setViewHms(h, m, s = "") {
         document.getElementById("min").innerHTML = h;
         document.getElementById("hour").innerHTML = m;
         document.getElementById("sec").innerHTML = s;
@@ -68,19 +68,19 @@ export class View {
     }
 
     //fill color for each pointing rectangle when 1 sec, min hour passes
-    markRect(hour, min, sec) {
-
-        if (sec == 1)
+    markRect(hour, min, sec, enSec) {
+        if (sec == 1) {
             this.drawCircleOfRects();
-
+        }
         this.shape[parseInt(hour)].setAttributeNS(null, "fill", "deepskyblue");
         this.shape[parseInt(min)].setAttributeNS(null, "fill", "orangered");
-        this.shape[parseInt(sec)].setAttributeNS(null, "fill", "lime");
-
+        if (enSec) {
+            this.shape[parseInt(sec)].setAttributeNS(null, "fill", "lime");
+        }
     }
 
     //pass calculated angles and draw hands h,m ,s
-    rotateHand(hAngle, mAngle, sAngle) {
+    rotateHand(hAngle, mAngle, sAngle = "") {
         var mHand = document.getElementById("min");
         var hHand = document.getElementById("hour");
         var sHand = document.getElementById("sec");
@@ -88,7 +88,7 @@ export class View {
         hHand.setAttributeNS(null, "font-size", 14);
         sHand.setAttributeNS(null, "font-size", 14);
         mHand.setAttribute("transform", "rotate(" + (mAngle + 90) + ",325,325)");
-        hHand.setAttribute("transform", "rotate(" + (hAngle - 90) + ",325,325)");
+        hHand.setAttribute("transform", "rotate(" + (hAngle - 90) + ",325,325)");        
         sHand.setAttribute("transform", "rotate(" + (sAngle + 90) + ",325,325)");
     }
 }
