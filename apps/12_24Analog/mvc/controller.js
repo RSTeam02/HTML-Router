@@ -10,6 +10,7 @@ export class Controller {
         this.numerals = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one", "twenty-two", "twenty-three", "twenty-four", "twenty-five", "twenty-six", "twenty-seven", "twenty-eight", "twenty-nine", "thirty", "thirty-one", "thirty-two", "thirty-three", "thirty-four", "thirty-five", "thirty-six", "thirty-seven", "thirty-eight", "thirty-nine", "forty", "forty-one", "forty-two", "forty-three", "forty-four", "forty-five", "forty-six", "forty-seven", "forty-eight", "forty-nine", "fifty", "fifty-one", "fifty-two", "fifty-three", "fifty-four", "fifty-five", "fifty-six", "fifty-seven", "fifty-eight", "fifty-nine"];
         this.model = new Model();
         this.view = new View();
+        this.view.drawCircleOfRects();
         if (this.setLS.loadSetting("analogClkSet") !== null) {
             $("#hRange").val(this.setLS.loadSetting("analogClkSet").hRange);
             $("#mRange").val(this.setLS.loadSetting("analogClkSet").mRange);
@@ -35,7 +36,7 @@ export class Controller {
     }
 
     pMode() {
-         if ($('#phraseCheck').is(':checked')) {
+        if ($('#phraseCheck').is(':checked')) {
             this.rotateHM();
             clearInterval(this.interval);
         } else {
@@ -83,7 +84,7 @@ export class Controller {
     }
 
     //phrase output: pass values from slider (hour, min) to phrasebuilder, hands
-    rotateHM() {        
+    rotateHM() {
         this.view.drawCircleOfRects();
         this.setHms($("#hRange").val(), $("#mRange").val());
         $("#hInfo").html(`hour: ${this.getHms().hour}`);
