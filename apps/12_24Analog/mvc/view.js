@@ -25,8 +25,8 @@ export class View {
 
     //face numbering
     drawWrittenNums(faceAttr) {
-        var writtenNum;       
-
+        let writtenNum;       
+        let num = document.getElementById("num");
         while (num.lastChild){
             num.removeChild(num.lastChild);         
         }
@@ -51,6 +51,7 @@ export class View {
 
     //draw non filled rects in circular shape
     drawCircleOfRects() {
+        let scala = document.getElementById("scala");
 
         while (scala.firstChild){
             scala.removeChild(scala.firstChild);            
