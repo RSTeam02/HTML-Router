@@ -42,11 +42,9 @@ export class Controller {
     btnListener() {
 
         $("#slider, .gmode").on('input', () => {
-            this.resetSW();
-            this.dim = parseInt(this.allFormat.value);
-            this.showFormat(this.allFormat.value);
-            //this.mode = document.getElementById("selectId").value;
-            this.initRaster(this.dim, true);
+            this.resetSW();        
+            this.showFormat(parseInt($('#slider').val()));           
+            this.initRaster(true);
             this.timeArr = [];
             this.setLS.saveSetting("puzzleSet", this.puzzleSet());
         });
@@ -54,7 +52,7 @@ export class Controller {
 
         $("#ng").click(() => {
             //game starts => preview mode false
-            this.initRaster(this.dim, false);
+            this.initRaster(false);
             //time challenge (entry in top-time list: rank. name ...time) or normal mode (just play)
             if (document.getElementById("time").checked) {
 
@@ -77,9 +75,9 @@ export class Controller {
     }
 
 
-    initView(seq, mxn) {
-        this.view = new View(seq, this.dim, this.mode);
-        this.view.svgMat(this.tileArr);
+    initView(seq, dim) {
+        this.view = new View(seq, dim, this.mode);
+        this.view.svgMat();
     }
     //start, reset stopper accuracy 1/10 sec.
     resetSW() {
@@ -131,7 +129,7 @@ export class Controller {
                                     this.player = undefined;
                                 }
                                 this.view.playerInfo(cb);
-                                document.getElementById("shape" + this.mxn).setAttribute("fill", "white");
+                                document.getElementById("shape" + this.nxn).setAttribute("fill", "white");
                                 document.dispatchEvent(this.removeEvent);
                             }
                         }, this.solution);
@@ -189,20 +187,21 @@ export class Controller {
     }
 
     //preview === ordered, solution state, !preview === when game starts, random state, tiles reacts on events
-    initRaster(dim, preview) {
+    initRaster(preview) {
         let seq = [];
         this.tileMat = new TileMatrix();
+        let dim = parseInt($('#slider').val());
         this.tileArr = this.tileMat.createTileMat(dim, dim);
-        this.mxn = Math.pow(dim, 2) - 1;
+        this.nxn = Math.pow(dim, 2) - 1;
         this.evaluation = new Evaluation();
         if (preview) {
             seq = new Shuffle().previewOrder(this.tileArr);
-            this.initView(seq, this.mxn);
+            this.initView(seq, dim);
             this.solution = this.initSolution();
-            document.getElementById("shape" + this.mxn).setAttribute("fill", "white");
+            document.getElementById("shape" + this.nxn).setAttribute("fill", "white");
         } else {
             seq = new Shuffle().randomOrder(this.tileArr);
-            this.initView(seq, this.mxn);
+            this.initView(seq, dim);
             this.initSeq(seq);
         }
         this.view.playerInfo("");

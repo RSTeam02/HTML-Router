@@ -6,28 +6,26 @@
 export class View {
 
     //draw eachtile as svg text/square
-    constructor(seq, mxn, mode) {
+    constructor(seq, dim, mode) {
         this.svgNS = "http://www.w3.org/2000/svg";
+        this.dim = dim;
         this.mode = mode;
-        this.mxn = mxn;
         this.seq = seq;
         this.displaySize();
-       
+
     }
 
     //mat output as svg
-    svgMat(tile) {
+    svgMat() {
         let y = 0;
-        let tileArr = [];
-        let id = 0;       
+        let id = 0;
 
-        for (var i = 0; i < tile.length; i++) {
-            tileArr[i] = tile[i];
+        for (var i = 0; i < this.dim; i++) {
             var x = 0;
-            for (var j = 0; j < tile[i].length; j++) {
-                let tile = {     
-                    tileId: id, 
-                    posX: x, 
+            for (var j = 0; j < this.dim; j++) {
+                let tile = {
+                    tileId: id,
+                    posX: x,
                     posY: y
                 };
                 this.svgAlphaNum(tile);
@@ -41,7 +39,7 @@ export class View {
     }
     //scale size for nxn
     displaySize() {
-        this.w = this.mxn * 50 + 10;
+        this.w = this.dim * 50 + 10;
         this.h = Math.floor(this.w / 1.55);
     }
 
@@ -62,7 +60,7 @@ export class View {
         txt.setAttribute("transform", "translate(0,-5)");
         txt.setAttribute("text-anchor", "middle");
         txt.setAttribute("x", tile.posX + 15);
-        txt.setAttribute("y", tile.posY + 26);       
+        txt.setAttribute("y", tile.posY + 26);
         (this.seq.length !== tile.tileId + 1)
             ? txt.setAttribute("fill", "white")
             : txt.setAttribute("fill", "transparent");
@@ -75,10 +73,8 @@ export class View {
         square.setAttribute("height", 30);
         square.setAttribute("stroke", "white");
         square.setAttribute("stroke-width", "1");
-        square.setAttribute("fill", "none");       
-
+        square.setAttribute("fill", "none");
         alphaNum = val;
-
         numMode = document.createTextNode(alphaNum);
         txt.setAttribute("value", alphaNum);
         txt.appendChild(numMode);
@@ -89,15 +85,15 @@ export class View {
     playerInfo(str) {
         document.getElementById("pInfo").innerHTML = str;
     }
-    
-    
+
+
 
     scoreTable(rows) {
         let rank = 1;
 
         $("#scoreList").html("");
         $("#scoreList").append("<th>Rank</th><th>Player</th><th>Time</th>");
-        $.each(rows, (k, v) => {          
+        $.each(rows, (k, v) => {
             if (v.game === "puzzle" && $("#slider").val() === v.x) {
                 $("#scoreList").append(`<tr class = "row">
                 <td class = "col" align = "right">${rank++}.</td>
