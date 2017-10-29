@@ -23,7 +23,7 @@ export class Shuffle {
                 previewArr[i][j] = arr[i][j].val;
             }
         }
-        //2 dim => 1 dim        
+        //2 dim => 1 dim
         return previewArr.join(",").split(",");
     }
 
@@ -31,7 +31,7 @@ export class Shuffle {
     randomOrder(arr) {
         this.arr = arr;
         var shuffled = [];
-   
+
         do {
             for (let i = 0; i < this.arr.length; i++) {
                 for (let j = 0; j < this.arr[i].length; j++) {
@@ -110,11 +110,11 @@ export class Shuffle {
         //if (this.sumInv() === avgInv) {
         /*when last (empty) element in the right bottom corner &&
         ( (grid width odd) && (#inversions even) )  ||  ( (grid width even) && ((blank on odd row from bottom) == (#inversions even)) )*/
-            if (this.arr[this.arr.length - 1][this.arr.length - 1].val === Math.pow(this.arr.length, 2)) {
-                if ((this.arr.length % 2 !== 0 && this.sumInv() % 2 === 0) || (this.arr.length % 2 === 0 && this.arr[this.arr.length - 1][this.arr.length - 1].x % 2 !== this.sumInv() % 2)) {
-                    return true;
-                }
+        if (this.arr[this.arr.length - 1][this.arr.length - 1].val === Math.pow(this.arr.length, 2)) {
+            if ((this.arr.length % 2 !== 0 && this.sumInv() % 2 === 0) || (this.arr.length % 2 === 0 && this.arr[this.arr.length - 1][this.arr.length - 1].x % 2 !== this.sumInv() % 2)) {
+                return true;
             }
+        }
         //}
     }
 

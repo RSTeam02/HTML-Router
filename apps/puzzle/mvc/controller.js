@@ -76,7 +76,7 @@ export class Controller {
 
 
     initView(seq, dim) {
-        this.view = new View(seq, dim, this.mode);
+        this.view = new View(seq, this.mode);
         this.view.svgMat();
     }
     //start, reset stopper accuracy 1/10 sec.
