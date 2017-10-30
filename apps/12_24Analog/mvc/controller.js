@@ -38,9 +38,12 @@ export class Controller {
     pMode() {
         if ($('#phraseCheck').is(':checked')) {
             this.rotateHM();
+            $(".hmInfo, .hmRange").show();
             clearInterval(this.interval);
         } else {
             this.startClockwork();
+            $(".hmInfo, .hmRange").hide();
+            
         }
         this.clickListener($('#phraseCheck').is(':checked'), this.handler);
     }
@@ -62,9 +65,7 @@ export class Controller {
         for (let i = 0; i < hmRange.length; i++) {
             if (click) {
                 hmRange[i].addEventListener("input", handler, false);
-            } else {
-                $("#hInfo").html("");
-                $("#mInfo").html("");
+            } else {                
                 hmRange[i].removeEventListener("input", handler, false);
             }
             hmRange[i].disabled = !click;
@@ -144,35 +145,39 @@ export class Controller {
 
     //mark rectangles with fill or disable
     enableMarkRect(part, enSec) {
-
         (document.getElementById("rectCheck").checked)
             ? this.view.markRect(Math.floor((5 * ((part.hour % this.mode) + part.min / 60)) / this.divider), part.min, part.sec, enSec)
             : this.view.drawCircleOfRects();
     }
 
     enableNum24() {
-        $("#24Check, #numCheck").click(() => {
+        $("#24Check, #numCheck").click((event) => {
             this.init12_24();
-            this.rotateHM();
+            if(event.currentTarget.id === "24Check"){
+                this.view.drawCircleOfRects();
+            }
+            if ($('#phraseCheck').is(':checked')) {
+                this.rotateHM();         
+            }   
         });
     }
 
 
     //different angle speed dependent on 12 or 24h mode 
     init12_24() {
-        let angle;
+        
+        let angle = 30;
+        this.mode = 12;
+        this.divider = 1;
+        let apm = (this.date.getHours() >= 0 && this.date.getHours() < 12) ? "AM" : "PM";
+        $("#24h").html(apm);
+        
         if (document.getElementById("24Check").checked) {
             angle = 15;
             this.mode = 24;
             this.divider = 2;
             $("#24h").html("24h");
-        } else {
-            angle = 30;
-            this.mode = 12;
-            this.divider = 1;
-            let apm = (this.date.getHours() >= 0 && this.date.getHours() < 12) ? "AM" : "PM";
-            $("#24h").html(apm);
-        }
+        } 
 
         let faceAttr = {
             angle: angle,
