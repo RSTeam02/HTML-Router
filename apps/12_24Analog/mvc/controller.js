@@ -36,6 +36,7 @@ export class Controller {
     }
 
     pMode() {
+        this.view.drawCircleOfRects();
         if ($('#phraseCheck').is(':checked')) {
             this.rotateHM();
             $(".hmInfo, .hmRange").show();
